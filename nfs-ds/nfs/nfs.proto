@@ -20,6 +20,15 @@ message DoublePath {
 	string sink = 2;
 }
 
+message FileUpload {
+	string path = 1;
+	bytes content = 2;
+}
+
+message FileDownload {
+	bytes content = 2;
+}
+
 service NFS {
    rpc list_dir(Path) returns (String) {}
    rpc create_dir(Path) returns (Status) {}
@@ -28,8 +37,9 @@ service NFS {
    rpc copy_dir(DoublePath) returns (Status) {}
    rpc move_dir(DoublePath) returns (Status) {}
 
-   rpc get_file(Path) returns (String) {}
-   rpc create_file(Path) returns (Status) {}
+   rpc get_file(Path) returns (FileDownload) {}
+   rpc upload_file(FileUpload) returns (Status) {}
+   
    rpc delete_file(Path) returns (Status) {}
    rpc rename_file(DoublePath) returns (Status) {}
    rpc copy_file(DoublePath) returns (Status) {}

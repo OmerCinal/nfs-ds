@@ -47,11 +47,11 @@ class NFSStub(object):
         self.get_file = channel.unary_unary(
                 '/nfs.NFS/get_file',
                 request_serializer=nfs__pb2.Path.SerializeToString,
-                response_deserializer=nfs__pb2.String.FromString,
+                response_deserializer=nfs__pb2.FileDownload.FromString,
                 )
-        self.create_file = channel.unary_unary(
-                '/nfs.NFS/create_file',
-                request_serializer=nfs__pb2.Path.SerializeToString,
+        self.upload_file = channel.unary_unary(
+                '/nfs.NFS/upload_file',
+                request_serializer=nfs__pb2.FileUpload.SerializeToString,
                 response_deserializer=nfs__pb2.Status.FromString,
                 )
         self.delete_file = channel.unary_unary(
@@ -121,7 +121,7 @@ class NFSServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def create_file(self, request, context):
+    def upload_file(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -187,11 +187,11 @@ def add_NFSServicer_to_server(servicer, server):
             'get_file': grpc.unary_unary_rpc_method_handler(
                     servicer.get_file,
                     request_deserializer=nfs__pb2.Path.FromString,
-                    response_serializer=nfs__pb2.String.SerializeToString,
+                    response_serializer=nfs__pb2.FileDownload.SerializeToString,
             ),
-            'create_file': grpc.unary_unary_rpc_method_handler(
-                    servicer.create_file,
-                    request_deserializer=nfs__pb2.Path.FromString,
+            'upload_file': grpc.unary_unary_rpc_method_handler(
+                    servicer.upload_file,
+                    request_deserializer=nfs__pb2.FileUpload.FromString,
                     response_serializer=nfs__pb2.Status.SerializeToString,
             ),
             'delete_file': grpc.unary_unary_rpc_method_handler(
@@ -339,12 +339,12 @@ class NFS(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/nfs.NFS/get_file',
             nfs__pb2.Path.SerializeToString,
-            nfs__pb2.String.FromString,
+            nfs__pb2.FileDownload.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def create_file(request,
+    def upload_file(request,
             target,
             options=(),
             channel_credentials=None,
@@ -354,8 +354,8 @@ class NFS(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/nfs.NFS/create_file',
-            nfs__pb2.Path.SerializeToString,
+        return grpc.experimental.unary_unary(request, target, '/nfs.NFS/upload_file',
+            nfs__pb2.FileUpload.SerializeToString,
             nfs__pb2.Status.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

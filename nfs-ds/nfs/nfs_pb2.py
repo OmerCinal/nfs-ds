@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\tnfs.proto\x12\x03nfs\"\'\n\x06Status\x12\x0e\n\x06status\x18\x01 \x01(\x08\x12\r\n\x05\x65rror\x18\x02 \x01(\t\"\x18\n\x06String\x12\x0e\n\x06string\x18\x01 \x01(\t\"\x14\n\x04Path\x12\x0c\n\x04path\x18\x01 \x01(\t\"*\n\nDoublePath\x12\x0e\n\x06source\x18\x01 \x01(\t\x12\x0c\n\x04sink\x18\x02 \x01(\t2\x82\x04\n\x03NFS\x12$\n\x08list_dir\x12\t.nfs.Path\x1a\x0b.nfs.String\"\x00\x12&\n\ncreate_dir\x12\t.nfs.Path\x1a\x0b.nfs.Status\"\x00\x12&\n\ndelete_dir\x12\t.nfs.Path\x1a\x0b.nfs.Status\"\x00\x12,\n\nrename_dir\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x12*\n\x08\x63opy_dir\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x12*\n\x08move_dir\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x12$\n\x08get_file\x12\t.nfs.Path\x1a\x0b.nfs.String\"\x00\x12\'\n\x0b\x63reate_file\x12\t.nfs.Path\x1a\x0b.nfs.Status\"\x00\x12\'\n\x0b\x64\x65lete_file\x12\t.nfs.Path\x1a\x0b.nfs.Status\"\x00\x12-\n\x0brename_file\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x12+\n\tcopy_file\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x12+\n\tmove_file\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\tnfs.proto\x12\x03nfs\"\'\n\x06Status\x12\x0e\n\x06status\x18\x01 \x01(\x08\x12\r\n\x05\x65rror\x18\x02 \x01(\t\"\x18\n\x06String\x12\x0e\n\x06string\x18\x01 \x01(\t\"\x14\n\x04Path\x12\x0c\n\x04path\x18\x01 \x01(\t\"*\n\nDoublePath\x12\x0e\n\x06source\x18\x01 \x01(\t\x12\x0c\n\x04sink\x18\x02 \x01(\t\"+\n\nFileUpload\x12\x0c\n\x04path\x18\x01 \x01(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x01(\x0c\"\x1f\n\x0c\x46ileDownload\x12\x0f\n\x07\x63ontent\x18\x02 \x01(\x0c\x32\x8e\x04\n\x03NFS\x12$\n\x08list_dir\x12\t.nfs.Path\x1a\x0b.nfs.String\"\x00\x12&\n\ncreate_dir\x12\t.nfs.Path\x1a\x0b.nfs.Status\"\x00\x12&\n\ndelete_dir\x12\t.nfs.Path\x1a\x0b.nfs.Status\"\x00\x12,\n\nrename_dir\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x12*\n\x08\x63opy_dir\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x12*\n\x08move_dir\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x12*\n\x08get_file\x12\t.nfs.Path\x1a\x11.nfs.FileDownload\"\x00\x12-\n\x0bupload_file\x12\x0f.nfs.FileUpload\x1a\x0b.nfs.Status\"\x00\x12\'\n\x0b\x64\x65lete_file\x12\t.nfs.Path\x1a\x0b.nfs.Status\"\x00\x12-\n\x0brename_file\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x12+\n\tcopy_file\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x12+\n\tmove_file\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x62\x06proto3'
 )
 
 
@@ -166,10 +166,83 @@ _DOUBLEPATH = _descriptor.Descriptor(
   serialized_end=149,
 )
 
+
+_FILEUPLOAD = _descriptor.Descriptor(
+  name='FileUpload',
+  full_name='nfs.FileUpload',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='path', full_name='nfs.FileUpload.path', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='content', full_name='nfs.FileUpload.content', index=1,
+      number=2, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=151,
+  serialized_end=194,
+)
+
+
+_FILEDOWNLOAD = _descriptor.Descriptor(
+  name='FileDownload',
+  full_name='nfs.FileDownload',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='content', full_name='nfs.FileDownload.content', index=0,
+      number=2, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=196,
+  serialized_end=227,
+)
+
 DESCRIPTOR.message_types_by_name['Status'] = _STATUS
 DESCRIPTOR.message_types_by_name['String'] = _STRING
 DESCRIPTOR.message_types_by_name['Path'] = _PATH
 DESCRIPTOR.message_types_by_name['DoublePath'] = _DOUBLEPATH
+DESCRIPTOR.message_types_by_name['FileUpload'] = _FILEUPLOAD
+DESCRIPTOR.message_types_by_name['FileDownload'] = _FILEDOWNLOAD
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Status = _reflection.GeneratedProtocolMessageType('Status', (_message.Message,), {
@@ -200,6 +273,20 @@ DoublePath = _reflection.GeneratedProtocolMessageType('DoublePath', (_message.Me
   })
 _sym_db.RegisterMessage(DoublePath)
 
+FileUpload = _reflection.GeneratedProtocolMessageType('FileUpload', (_message.Message,), {
+  'DESCRIPTOR' : _FILEUPLOAD,
+  '__module__' : 'nfs_pb2'
+  # @@protoc_insertion_point(class_scope:nfs.FileUpload)
+  })
+_sym_db.RegisterMessage(FileUpload)
+
+FileDownload = _reflection.GeneratedProtocolMessageType('FileDownload', (_message.Message,), {
+  'DESCRIPTOR' : _FILEDOWNLOAD,
+  '__module__' : 'nfs_pb2'
+  # @@protoc_insertion_point(class_scope:nfs.FileDownload)
+  })
+_sym_db.RegisterMessage(FileDownload)
+
 
 
 _NFS = _descriptor.ServiceDescriptor(
@@ -209,8 +296,8 @@ _NFS = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=152,
-  serialized_end=666,
+  serialized_start=230,
+  serialized_end=756,
   methods=[
   _descriptor.MethodDescriptor(
     name='list_dir',
@@ -278,16 +365,16 @@ _NFS = _descriptor.ServiceDescriptor(
     index=6,
     containing_service=None,
     input_type=_PATH,
-    output_type=_STRING,
+    output_type=_FILEDOWNLOAD,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
-    name='create_file',
-    full_name='nfs.NFS.create_file',
+    name='upload_file',
+    full_name='nfs.NFS.upload_file',
     index=7,
     containing_service=None,
-    input_type=_PATH,
+    input_type=_FILEUPLOAD,
     output_type=_STATUS,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,

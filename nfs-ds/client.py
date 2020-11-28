@@ -34,8 +34,24 @@ def delete_dir(stub):
     message = nfs_pb2.Path(
         path="C:/Users/ASUS/Desktop/projects/school/test_data2"
     )
-    response = stub.copy_dir(message)
+    response = stub.delete_dir(message)
     print(response.status, response.error)
+
+
+def get_file(stub):
+    message = nfs_pb2.Path(
+        path="C:/Users/ASUS/Desktop/projects/school/test_data/poems/poem.txt"
+    )
+    response = stub.get_file(message)
+    with open("C:/Users/ASUS/Desktop/projects/school/test_data/poems/poem_3.txt", "wb") as fp:
+        fp.write(response.content)
+
+
+def send_file(stub):
+    with open("C:/Users/ASUS/Desktop/poem_4.txt", "rb") as fp:
+        content = fp.read()
+    message = nfs_pb2.FileUpload(path="C:/Users/ASUS/Desktop/projects/school/test_data/poems/poem_4.txt", content=content)
+    response = stub.upload_file(message)
 
 
 def run(host: str, port: int):
@@ -43,7 +59,9 @@ def run(host: str, port: int):
         stub = nfs_pb2_grpc.NFSStub(channel)
         # list_dir(stub)
         # copy_dir(stub)
-        delete_dir(stub)
+        # delete_dir(stub)
+        # get_file(stub)
+        send_file(stub)
 
 
 if __name__ == "__main__":

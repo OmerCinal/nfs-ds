@@ -12,6 +12,16 @@ from _utils import copy_tree
 
 
 class NfsService(nfs_pb2_grpc.NFSServicer):
+    def _run_command(self, func, *args):
+        flag = True
+        error = ""
+        try:
+            func(*args)
+        except Exception as error:
+            flag = False
+
+        return nfs_pb2.Status(status=flag, error=str(error))
+
     def list_dir(self, request, context):
         path = request.path
         print(f"list_dir: path={path}")
@@ -19,74 +29,46 @@ class NfsService(nfs_pb2_grpc.NFSServicer):
         return nfs_pb2.String(string=json.dumps(data))
 
     def create_dir(self, request, context):
-        path = request.path
-        flag = True
-        error = ""
-        try:
-            os.mkdir(path)
-        except Exception as error:
-            flag = False
-
-        return nfs_pb2.Status(status=flag, error=str(error))
-
+        return self._run_command(os.mkdir, request.path)
+        
     def delete_dir(self, request, context):
-        path = request.path
-        flag = True
-        error = ""
-        try:
-            shutil.rmtree(path)
-        except Exception as error:
-            flag = False
-
-        return nfs_pb2.Status(status=flag, error=str(error))
+        return self._run_command(shutil.rmtree, request.path)
 
     def rename_dir(self, request, context):
-        flag = True
-        error = ""
-        try:
-            os.rename(request.source, request.sink)
-        except Exception as error:
-            flag = False
-
-        return nfs_pb2.Status(status=flag, error=str(error))
-
+        return self._run_command(os.rename, request.source, request.sink)
+        
     def copy_dir(self, request, context):
-        flag = True
-        error = ""
-        try:
-            copy_tree(request.source, request.sink)
-        except Exception as error:
-            flag = False
-
-        return nfs_pb2.Status(status=flag, error=str(error))
+        return self._run_command(copy_tree, request.source, request.sink)
 
     def move_dir(self, request, context):
-        flag = True
-        error = ""
-        try:
-            shutil.move(request.source, request.sink)
-        except Exception as error:
-            flag = False
+        return self._run_command(shutil.move, request.source, request.sink)
+        
+    def get_file(self, request, context):
+        with open(request.path, "rb") as fp:
+            content = fp.read()
+        return nfs_pb2.FileDownload(content=content)
 
-        return nfs_pb2.Status(status=flag, error=str(error))
+    def upload_file(self, request, context):
+        flag, error = True, ""
+        if os.path.isfile(request.path):
+            flag, error = False, "File already exists."
+        else:
+            with open(request.path, "wb") as fp:
+                fp.write(request.content)
 
-    # def get_file(self, request, context):
-    #     return "Succesful"
+        return nfs_pb2.Status(status=flag, error=error)
 
-    # def create_file(self, request, context):
-    #     return "Succesful"
+    def delete_file(self, request, context):
+        return self._run_command(os.remove, request.source, request.sink)
 
-    # def delete_file(self, request, context):
-    #     return "Succesful"
+    def rename_file(self, request, context):
+        return self._run_command(os.rename, request.source, request.sink)
 
-    # def rename_file(self, request, context):
-    #     return "Succesful"
+    def copy_file(self, request, context):
+        return self._run_command(shutil.copyfile, request.source, request.sink)
 
-    # def copy_file(self, request, context):
-    #     return "Succesful"
-
-    # def move_file(self, request, context):
-    #     return "Succesful"
+    def move_file(self, request, context):
+        return self._run_command(shutil.move, request.source, request.sink)
 
 
 def serve(port: int, max_workers: int = 10):
