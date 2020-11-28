@@ -1,10 +1,10 @@
 
 run.server:
-	python server.py
+	python nfs-ds/server.py
 
 run.client:
-	python client.py
+	python nfs-ds/client.py
 
 build.protobuf:
-	python -m grpc_tools.protoc --proto_path=nfs-ds/bidirectional/ bidirectional.proto --python_out=./nfs-ds/bidirectional --grpc_python_out=./nfs-ds/bidirectional
+	python -m grpc_tools.protoc --proto_path=nfs-ds/nfs/ nfs.proto --python_out=./nfs-ds/nfs --grpc_python_out=./nfs-ds/nfs
 

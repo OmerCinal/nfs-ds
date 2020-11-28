@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package nfs;
+
+
+message String {
+	string string = 1; 
+}
+
+message Path {
+	string path = 1; 
+}
+
+message DoublePath {
+	string source = 1;
+	string sink = 2;
+}
+
+message ReadResult {
+	int32 bytesread = 1;
+	bytes buffer = 2;
+
+	int32 error = 3;
+}
+
+service NFS {
+   rpc list_dir(Path) returns (String) {}
+   rpc create_dir(Path) returns (String) {}
+   rpc delete_dir(Path) returns (String) {}
+   rpc rename_dir(DoublePath) returns (String) {}
+   rpc copy_dir(DoublePath) returns (String) {}
+   rpc move_dir(DoublePath) returns (String) {}
+
+   rpc get_file(Path) returns (String) {}
+   rpc create_file(Path) returns (String) {}
+   rpc delete_file(Path) returns (String) {}
+   rpc rename_file(DoublePath) returns (String) {}
+   rpc copy_file(DoublePath) returns (String) {}
+   rpc move_file(DoublePath) returns (String) {}
+}
