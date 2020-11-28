@@ -1,11 +1,14 @@
 from concurrent import futures
 
 import os
+import shutil
 import json
 
 import grpc
 import nfs.nfs_pb2_grpc as nfs_pb2_grpc
 import nfs.nfs_pb2 as nfs_pb2
+
+from _utils import copy_tree
 
 
 class NfsService(nfs_pb2_grpc.NFSServicer):
@@ -15,20 +18,57 @@ class NfsService(nfs_pb2_grpc.NFSServicer):
         data = list(os.walk(path))
         return nfs_pb2.String(string=json.dumps(data))
 
-    # def create_dir(self, request, context):
-    #     return "Succesful"
+    def create_dir(self, request, context):
+        path = request.path
+        flag = True
+        error = ""
+        try:
+            os.mkdir(path)
+        except Exception as error:
+            flag = False
 
-    # def delete_dir(self, request, context):
-    #     return "Succesful"
+        return nfs_pb2.Status(status=flag, error=str(error))
 
-    # def rename_dir(self, request, context):
-    #     return "Succesful"
+    def delete_dir(self, request, context):
+        path = request.path
+        flag = True
+        error = ""
+        try:
+            shutil.rmtree(path)
+        except Exception as error:
+            flag = False
 
-    # def copy_dir(self, request, context):
-    #     return "Succesful"
+        return nfs_pb2.Status(status=flag, error=str(error))
 
-    # def move_dir(self, request, context):
-    #     return "Succesful"
+    def rename_dir(self, request, context):
+        flag = True
+        error = ""
+        try:
+            os.rename(request.source, request.sink)
+        except Exception as error:
+            flag = False
+
+        return nfs_pb2.Status(status=flag, error=str(error))
+
+    def copy_dir(self, request, context):
+        flag = True
+        error = ""
+        try:
+            copy_tree(request.source, request.sink)
+        except Exception as error:
+            flag = False
+
+        return nfs_pb2.Status(status=flag, error=str(error))
+
+    def move_dir(self, request, context):
+        flag = True
+        error = ""
+        try:
+            shutil.move(request.source, request.sink)
+        except Exception as error:
+            flag = False
+
+        return nfs_pb2.Status(status=flag, error=str(error))
 
     # def get_file(self, request, context):
     #     return "Succesful"

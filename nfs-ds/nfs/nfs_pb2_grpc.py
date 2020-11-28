@@ -15,65 +15,65 @@ class NFSStub(object):
             channel: A grpc.Channel.
         """
         self.list_dir = channel.unary_unary(
-            "/nfs.NFS/list_dir",
-            request_serializer=nfs__pb2.Path.SerializeToString,
-            response_deserializer=nfs__pb2.String.FromString,
-        )
+                '/nfs.NFS/list_dir',
+                request_serializer=nfs__pb2.Path.SerializeToString,
+                response_deserializer=nfs__pb2.String.FromString,
+                )
         self.create_dir = channel.unary_unary(
-            "/nfs.NFS/create_dir",
-            request_serializer=nfs__pb2.Path.SerializeToString,
-            response_deserializer=nfs__pb2.String.FromString,
-        )
+                '/nfs.NFS/create_dir',
+                request_serializer=nfs__pb2.Path.SerializeToString,
+                response_deserializer=nfs__pb2.Status.FromString,
+                )
         self.delete_dir = channel.unary_unary(
-            "/nfs.NFS/delete_dir",
-            request_serializer=nfs__pb2.Path.SerializeToString,
-            response_deserializer=nfs__pb2.String.FromString,
-        )
+                '/nfs.NFS/delete_dir',
+                request_serializer=nfs__pb2.Path.SerializeToString,
+                response_deserializer=nfs__pb2.Status.FromString,
+                )
         self.rename_dir = channel.unary_unary(
-            "/nfs.NFS/rename_dir",
-            request_serializer=nfs__pb2.DoublePath.SerializeToString,
-            response_deserializer=nfs__pb2.String.FromString,
-        )
+                '/nfs.NFS/rename_dir',
+                request_serializer=nfs__pb2.DoublePath.SerializeToString,
+                response_deserializer=nfs__pb2.Status.FromString,
+                )
         self.copy_dir = channel.unary_unary(
-            "/nfs.NFS/copy_dir",
-            request_serializer=nfs__pb2.DoublePath.SerializeToString,
-            response_deserializer=nfs__pb2.String.FromString,
-        )
+                '/nfs.NFS/copy_dir',
+                request_serializer=nfs__pb2.DoublePath.SerializeToString,
+                response_deserializer=nfs__pb2.Status.FromString,
+                )
         self.move_dir = channel.unary_unary(
-            "/nfs.NFS/move_dir",
-            request_serializer=nfs__pb2.DoublePath.SerializeToString,
-            response_deserializer=nfs__pb2.String.FromString,
-        )
+                '/nfs.NFS/move_dir',
+                request_serializer=nfs__pb2.DoublePath.SerializeToString,
+                response_deserializer=nfs__pb2.Status.FromString,
+                )
         self.get_file = channel.unary_unary(
-            "/nfs.NFS/get_file",
-            request_serializer=nfs__pb2.Path.SerializeToString,
-            response_deserializer=nfs__pb2.String.FromString,
-        )
+                '/nfs.NFS/get_file',
+                request_serializer=nfs__pb2.Path.SerializeToString,
+                response_deserializer=nfs__pb2.String.FromString,
+                )
         self.create_file = channel.unary_unary(
-            "/nfs.NFS/create_file",
-            request_serializer=nfs__pb2.Path.SerializeToString,
-            response_deserializer=nfs__pb2.String.FromString,
-        )
+                '/nfs.NFS/create_file',
+                request_serializer=nfs__pb2.Path.SerializeToString,
+                response_deserializer=nfs__pb2.Status.FromString,
+                )
         self.delete_file = channel.unary_unary(
-            "/nfs.NFS/delete_file",
-            request_serializer=nfs__pb2.Path.SerializeToString,
-            response_deserializer=nfs__pb2.String.FromString,
-        )
+                '/nfs.NFS/delete_file',
+                request_serializer=nfs__pb2.Path.SerializeToString,
+                response_deserializer=nfs__pb2.Status.FromString,
+                )
         self.rename_file = channel.unary_unary(
-            "/nfs.NFS/rename_file",
-            request_serializer=nfs__pb2.DoublePath.SerializeToString,
-            response_deserializer=nfs__pb2.String.FromString,
-        )
+                '/nfs.NFS/rename_file',
+                request_serializer=nfs__pb2.DoublePath.SerializeToString,
+                response_deserializer=nfs__pb2.Status.FromString,
+                )
         self.copy_file = channel.unary_unary(
-            "/nfs.NFS/copy_file",
-            request_serializer=nfs__pb2.DoublePath.SerializeToString,
-            response_deserializer=nfs__pb2.String.FromString,
-        )
+                '/nfs.NFS/copy_file',
+                request_serializer=nfs__pb2.DoublePath.SerializeToString,
+                response_deserializer=nfs__pb2.Status.FromString,
+                )
         self.move_file = channel.unary_unary(
-            "/nfs.NFS/move_file",
-            request_serializer=nfs__pb2.DoublePath.SerializeToString,
-            response_deserializer=nfs__pb2.String.FromString,
-        )
+                '/nfs.NFS/move_file',
+                request_serializer=nfs__pb2.DoublePath.SerializeToString,
+                response_deserializer=nfs__pb2.Status.FromString,
+                )
 
 
 class NFSServicer(object):
@@ -82,493 +82,348 @@ class NFSServicer(object):
     def list_dir(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def create_dir(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def delete_dir(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def rename_dir(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def copy_dir(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def move_dir(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def get_file(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def create_file(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def delete_file(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def rename_file(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def copy_file(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def move_file(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
 
 def add_NFSServicer_to_server(servicer, server):
     rpc_method_handlers = {
-        "list_dir": grpc.unary_unary_rpc_method_handler(
-            servicer.list_dir,
-            request_deserializer=nfs__pb2.Path.FromString,
-            response_serializer=nfs__pb2.String.SerializeToString,
-        ),
-        "create_dir": grpc.unary_unary_rpc_method_handler(
-            servicer.create_dir,
-            request_deserializer=nfs__pb2.Path.FromString,
-            response_serializer=nfs__pb2.String.SerializeToString,
-        ),
-        "delete_dir": grpc.unary_unary_rpc_method_handler(
-            servicer.delete_dir,
-            request_deserializer=nfs__pb2.Path.FromString,
-            response_serializer=nfs__pb2.String.SerializeToString,
-        ),
-        "rename_dir": grpc.unary_unary_rpc_method_handler(
-            servicer.rename_dir,
-            request_deserializer=nfs__pb2.DoublePath.FromString,
-            response_serializer=nfs__pb2.String.SerializeToString,
-        ),
-        "copy_dir": grpc.unary_unary_rpc_method_handler(
-            servicer.copy_dir,
-            request_deserializer=nfs__pb2.DoublePath.FromString,
-            response_serializer=nfs__pb2.String.SerializeToString,
-        ),
-        "move_dir": grpc.unary_unary_rpc_method_handler(
-            servicer.move_dir,
-            request_deserializer=nfs__pb2.DoublePath.FromString,
-            response_serializer=nfs__pb2.String.SerializeToString,
-        ),
-        "get_file": grpc.unary_unary_rpc_method_handler(
-            servicer.get_file,
-            request_deserializer=nfs__pb2.Path.FromString,
-            response_serializer=nfs__pb2.String.SerializeToString,
-        ),
-        "create_file": grpc.unary_unary_rpc_method_handler(
-            servicer.create_file,
-            request_deserializer=nfs__pb2.Path.FromString,
-            response_serializer=nfs__pb2.String.SerializeToString,
-        ),
-        "delete_file": grpc.unary_unary_rpc_method_handler(
-            servicer.delete_file,
-            request_deserializer=nfs__pb2.Path.FromString,
-            response_serializer=nfs__pb2.String.SerializeToString,
-        ),
-        "rename_file": grpc.unary_unary_rpc_method_handler(
-            servicer.rename_file,
-            request_deserializer=nfs__pb2.DoublePath.FromString,
-            response_serializer=nfs__pb2.String.SerializeToString,
-        ),
-        "copy_file": grpc.unary_unary_rpc_method_handler(
-            servicer.copy_file,
-            request_deserializer=nfs__pb2.DoublePath.FromString,
-            response_serializer=nfs__pb2.String.SerializeToString,
-        ),
-        "move_file": grpc.unary_unary_rpc_method_handler(
-            servicer.move_file,
-            request_deserializer=nfs__pb2.DoublePath.FromString,
-            response_serializer=nfs__pb2.String.SerializeToString,
-        ),
+            'list_dir': grpc.unary_unary_rpc_method_handler(
+                    servicer.list_dir,
+                    request_deserializer=nfs__pb2.Path.FromString,
+                    response_serializer=nfs__pb2.String.SerializeToString,
+            ),
+            'create_dir': grpc.unary_unary_rpc_method_handler(
+                    servicer.create_dir,
+                    request_deserializer=nfs__pb2.Path.FromString,
+                    response_serializer=nfs__pb2.Status.SerializeToString,
+            ),
+            'delete_dir': grpc.unary_unary_rpc_method_handler(
+                    servicer.delete_dir,
+                    request_deserializer=nfs__pb2.Path.FromString,
+                    response_serializer=nfs__pb2.Status.SerializeToString,
+            ),
+            'rename_dir': grpc.unary_unary_rpc_method_handler(
+                    servicer.rename_dir,
+                    request_deserializer=nfs__pb2.DoublePath.FromString,
+                    response_serializer=nfs__pb2.Status.SerializeToString,
+            ),
+            'copy_dir': grpc.unary_unary_rpc_method_handler(
+                    servicer.copy_dir,
+                    request_deserializer=nfs__pb2.DoublePath.FromString,
+                    response_serializer=nfs__pb2.Status.SerializeToString,
+            ),
+            'move_dir': grpc.unary_unary_rpc_method_handler(
+                    servicer.move_dir,
+                    request_deserializer=nfs__pb2.DoublePath.FromString,
+                    response_serializer=nfs__pb2.Status.SerializeToString,
+            ),
+            'get_file': grpc.unary_unary_rpc_method_handler(
+                    servicer.get_file,
+                    request_deserializer=nfs__pb2.Path.FromString,
+                    response_serializer=nfs__pb2.String.SerializeToString,
+            ),
+            'create_file': grpc.unary_unary_rpc_method_handler(
+                    servicer.create_file,
+                    request_deserializer=nfs__pb2.Path.FromString,
+                    response_serializer=nfs__pb2.Status.SerializeToString,
+            ),
+            'delete_file': grpc.unary_unary_rpc_method_handler(
+                    servicer.delete_file,
+                    request_deserializer=nfs__pb2.Path.FromString,
+                    response_serializer=nfs__pb2.Status.SerializeToString,
+            ),
+            'rename_file': grpc.unary_unary_rpc_method_handler(
+                    servicer.rename_file,
+                    request_deserializer=nfs__pb2.DoublePath.FromString,
+                    response_serializer=nfs__pb2.Status.SerializeToString,
+            ),
+            'copy_file': grpc.unary_unary_rpc_method_handler(
+                    servicer.copy_file,
+                    request_deserializer=nfs__pb2.DoublePath.FromString,
+                    response_serializer=nfs__pb2.Status.SerializeToString,
+            ),
+            'move_file': grpc.unary_unary_rpc_method_handler(
+                    servicer.move_file,
+                    request_deserializer=nfs__pb2.DoublePath.FromString,
+                    response_serializer=nfs__pb2.Status.SerializeToString,
+            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-        "nfs.NFS", rpc_method_handlers
-    )
+            'nfs.NFS', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
-# This class is part of an EXPERIMENTAL API.
+ # This class is part of an EXPERIMENTAL API.
 class NFS(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def list_dir(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
-        return grpc.experimental.unary_unary(
-            request,
+    def list_dir(request,
             target,
-            "/nfs.NFS/list_dir",
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/nfs.NFS/list_dir',
             nfs__pb2.Path.SerializeToString,
             nfs__pb2.String.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-        )
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def create_dir(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
-        return grpc.experimental.unary_unary(
-            request,
+    def create_dir(request,
             target,
-            "/nfs.NFS/create_dir",
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/nfs.NFS/create_dir',
+            nfs__pb2.Path.SerializeToString,
+            nfs__pb2.Status.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def delete_dir(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/nfs.NFS/delete_dir',
+            nfs__pb2.Path.SerializeToString,
+            nfs__pb2.Status.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def rename_dir(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/nfs.NFS/rename_dir',
+            nfs__pb2.DoublePath.SerializeToString,
+            nfs__pb2.Status.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def copy_dir(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/nfs.NFS/copy_dir',
+            nfs__pb2.DoublePath.SerializeToString,
+            nfs__pb2.Status.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def move_dir(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/nfs.NFS/move_dir',
+            nfs__pb2.DoublePath.SerializeToString,
+            nfs__pb2.Status.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def get_file(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/nfs.NFS/get_file',
             nfs__pb2.Path.SerializeToString,
             nfs__pb2.String.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-        )
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def delete_dir(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
-        return grpc.experimental.unary_unary(
-            request,
+    def create_file(request,
             target,
-            "/nfs.NFS/delete_dir",
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/nfs.NFS/create_file',
             nfs__pb2.Path.SerializeToString,
-            nfs__pb2.String.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-        )
+            nfs__pb2.Status.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def rename_dir(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
-        return grpc.experimental.unary_unary(
-            request,
+    def delete_file(request,
             target,
-            "/nfs.NFS/rename_dir",
-            nfs__pb2.DoublePath.SerializeToString,
-            nfs__pb2.String.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-        )
-
-    @staticmethod
-    def copy_dir(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            "/nfs.NFS/copy_dir",
-            nfs__pb2.DoublePath.SerializeToString,
-            nfs__pb2.String.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-        )
-
-    @staticmethod
-    def move_dir(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            "/nfs.NFS/move_dir",
-            nfs__pb2.DoublePath.SerializeToString,
-            nfs__pb2.String.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-        )
-
-    @staticmethod
-    def get_file(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            "/nfs.NFS/get_file",
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/nfs.NFS/delete_file',
             nfs__pb2.Path.SerializeToString,
-            nfs__pb2.String.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-        )
+            nfs__pb2.Status.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def create_file(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
-        return grpc.experimental.unary_unary(
-            request,
+    def rename_file(request,
             target,
-            "/nfs.NFS/create_file",
-            nfs__pb2.Path.SerializeToString,
-            nfs__pb2.String.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-        )
-
-    @staticmethod
-    def delete_file(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            "/nfs.NFS/delete_file",
-            nfs__pb2.Path.SerializeToString,
-            nfs__pb2.String.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-        )
-
-    @staticmethod
-    def rename_file(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            "/nfs.NFS/rename_file",
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/nfs.NFS/rename_file',
             nfs__pb2.DoublePath.SerializeToString,
-            nfs__pb2.String.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-        )
+            nfs__pb2.Status.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def copy_file(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
-        return grpc.experimental.unary_unary(
-            request,
+    def copy_file(request,
             target,
-            "/nfs.NFS/copy_file",
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/nfs.NFS/copy_file',
             nfs__pb2.DoublePath.SerializeToString,
-            nfs__pb2.String.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-        )
+            nfs__pb2.Status.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def move_file(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
-        return grpc.experimental.unary_unary(
-            request,
+    def move_file(request,
             target,
-            "/nfs.NFS/move_file",
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/nfs.NFS/move_file',
             nfs__pb2.DoublePath.SerializeToString,
-            nfs__pb2.String.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-        )
+            nfs__pb2.Status.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
