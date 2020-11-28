@@ -1,8 +1,8 @@
 from __future__ import print_function
 
 import grpc
-import bidirectional_pb2_grpc as bidirectional_pb2_grpc
-import bidirectional_pb2 as bidirectional_pb2
+import bidirectional.bidirectional_pb2_grpc as bidirectional_pb2_grpc
+import bidirectional.bidirectional_pb2 as bidirectional_pb2
 
 
 def make_message(message):

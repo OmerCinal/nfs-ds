@@ -1,7 +1,7 @@
 from concurrent import futures
 
 import grpc
-import bidirectional_pb2_grpc as bidirectional_pb2_grpc
+import bidirectional.bidirectional_pb2_grpc as bidirectional_pb2_grpc
 
 
 class BidirectionalService(bidirectional_pb2_grpc.BidirectionalServicer):
