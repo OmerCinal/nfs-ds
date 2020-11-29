@@ -1,68 +1,46 @@
-from __future__ import print_function
-
 import json
 import grpc
 import nfs.nfs_pb2_grpc as nfs_pb2_grpc
 import nfs.nfs_pb2 as nfs_pb2
+from _functions import Functions
+from pick import pick
 
 
-def make_message(message):
-    return nfs_pb2.Path(path=message)
+class Client:
+    EXIT = "Exit"
+    OPTION_COVER_LEFT = ">"
+    OPTION_COVER_RIGHT = "<"
 
+    def __init__(self, host: str, port: int):
+        self.host = host
+        self.port = port
+        self.channel = grpc.insecure_channel(f"{host}:{port}")
+        self.stub = nfs_pb2_grpc.NFSStub(self.channel)
+        self.functions = Functions(self.stub)
 
-def list_dir(stub):
-    message = make_message("C:/Users/ASUS/Desktop/projects/school/test_data")
-    response = stub.list_dir(message)
-    data = json.loads(response.string)
-    for (dirpath, dirnames, filenames) in data:
-        print("dirpath:", dirpath)
-        print("dirnames:", dirnames)
-        print("filenames:", filenames)
-        print()
+        self.actions = {
+            "Test": self._test
+        }
 
+    def _test(self):
+        print("Hello World")
 
-def copy_dir(stub):
-    message = nfs_pb2.DoublePath(
-        source="C:/Users/ASUS/Desktop/projects/school/test_data",
-        sink="C:/Users/ASUS/Desktop/projects/school/test_data2"
-    )
-    response = stub.copy_dir(message)
-    print(response.status, response.error)
+    def start(self):
+        while True:
+            title = "Select an option"
+            options = list(self.actions.keys()) + [self.EXIT]
+            option, index = pick(options, title)
+            if option == self.EXIT:
+                print("Goodbye")
+                break
+            else:
+                self.actions[option]()
 
-
-def delete_dir(stub):
-    message = nfs_pb2.Path(
-        path="C:/Users/ASUS/Desktop/projects/school/test_data2"
-    )
-    response = stub.delete_dir(message)
-    print(response.status, response.error)
-
-
-def get_file(stub):
-    message = nfs_pb2.Path(
-        path="C:/Users/ASUS/Desktop/projects/school/test_data/poems/poem.txt"
-    )
-    response = stub.get_file(message)
-    with open("C:/Users/ASUS/Desktop/projects/school/test_data/poems/poem_3.txt", "wb") as fp:
-        fp.write(response.content)
-
-
-def send_file(stub):
-    with open("C:/Users/ASUS/Desktop/poem_4.txt", "rb") as fp:
-        content = fp.read()
-    message = nfs_pb2.FileUpload(path="C:/Users/ASUS/Desktop/projects/school/test_data/poems/poem_4.txt", content=content)
-    response = stub.upload_file(message)
-
-
-def run(host: str, port: int):
-    with grpc.insecure_channel(f"{host}:{port}") as channel:
-        stub = nfs_pb2_grpc.NFSStub(channel)
-        # list_dir(stub)
-        # copy_dir(stub)
-        # delete_dir(stub)
-        # get_file(stub)
-        send_file(stub)
+    def kill(self):
+        self.channel.close()
 
 
 if __name__ == "__main__":
-    run(host="localhost", port=50051)
+    client = Client(host="localhost", port=50051)
+    client.start()
+    client.kill()
