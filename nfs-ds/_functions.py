@@ -1,6 +1,6 @@
 import json
 import nfs.nfs_pb2 as nfs_pb2    
-
+import os
 
 class Functions:
     def __init__(self, stub):
@@ -10,7 +10,15 @@ class Functions:
         message = nfs_pb2.Path(path=path)
         response = self.stub.list_dir(message)
         data = json.loads(response.string)
-        return data
+        
+        dir_tree = {}
+        for root, dirs, files in data:
+            root = tuple(os.path.normpath(root).split(os.sep))
+            dir_tree[root] = {
+                "folders": dirs,
+                "files": files,
+            } 
+        return dir_tree
 
 
     def copy_dir(self, source: str, sink: str):

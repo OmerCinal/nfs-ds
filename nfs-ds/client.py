@@ -7,37 +7,41 @@ from pick import pick
 
 
 class Client:
-    EXIT = "Exit"
-    OPTION_COVER_LEFT = ">"
-    OPTION_COVER_RIGHT = "<"
+    REFRESH = "> Refresh Servers"
+    EXIT = "> Exit"
 
-    def __init__(self, host: str, port: int):
-        self.host = host
-        self.port = port
-        self.channel = grpc.insecure_channel(f"{host}:{port}")
-        self.stub = nfs_pb2_grpc.NFSStub(self.channel)
-        self.functions = Functions(self.stub)
+    def __init__(self):
+        self._servers = {}
 
-        self.actions = {
-            "Test": self._test
+    def _scan_servers(self):
+        self._servers["Localhost"] = {
+            "host": "localhost",
+            "port": 50051
         }
 
-    def _test(self):
-        print("Hello World")
+    def _connect_to_server(self, server_name: str):
+        host = self._servers[server_name]["host"]
+        port = self._servers[server_name]["port"]
+        channel = grpc.insecure_channel(f"{host}:{port}")
+        return nfs_pb2_grpc.NFSStub(channel), channel
 
     def start(self):
+        self._scan_servers()
         while True:
-            title = "Select an option"
-            options = list(self.actions.keys()) + [self.EXIT]
-            option, index = pick(options, title)
+            options = (
+                list(self._servers.keys())
+                + [self.REFRESH, self.EXIT]
+            )
+            option, index = pick(options, f"{len(self._servers)} servers found.")
             if option == self.EXIT:
-                print("Goodbye")
                 break
+            elif option == self.REFRESH:
+                self._scan_servers()
             else:
-                self.actions[option]()
+                stub, channel = self._connect_to_server(option)
+                PageNavigator(stub).loop_pages()
+                channel.close()
 
-    def kill(self):
-        self.channel.close()
 
 
 if __name__ == "__main__":
