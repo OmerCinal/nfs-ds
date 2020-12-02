@@ -1,51 +1,62 @@
+import json
+import grpc
+import nfs.nfs_pb2_grpc as nfs_pb2_grpc
+import nfs.nfs_pb2 as nfs_pb2
+from _functions import Functions
 from pick import pick
-from dataclasses import dataclass
 from typing import List, Dict
+from _symbols import Symbols
 
 
-@dataclass
-class Symbols:
-    OPTION_COVER_LEFT: str = "> "
-    OPTION_COVER_RIGHT: str = ""
+class Client:
+    BREAK = " "
+    REFRESH = Symbols.make_option("Refresh Servers")
+    EXIT = Symbols.make_option("Exit")
 
-    @classmethod
-    def make_option(cls, name: str) -> str:
-        return f"{cls.OPTION_COVER_LEFT}{name}{cls.OPTION_COVER_RIGHT}"
+    def __init__(self):
+        self._servers = {}
 
-    @classmethod
-    def make_options(cls, names: List) -> List:
-        return [cls.make_option(name) for name in names]
+    def _scan_servers(self):
+        self._servers["Localhost"] = {
+            "host": "localhost",
+            "port": 50051
+        }
 
+    def _connect_to_server(self, server_name: str):
+        host = self._servers[server_name]["host"]
+        port = self._servers[server_name]["port"]
+        channel = grpc.insecure_channel(f"{host}:{port}")
+        return nfs_pb2_grpc.NFSStub(channel), channel
 
-class PageNavigator:
-    DISCONNECT = Symbols.make_option("Disconnect")
-    BREAK = ""
-    MENU_TITLE = "Navigate through folders or choose an action."
+    def _get_server_names(self) -> List:
+        server_names = []
+        for name, params in self._servers.items():
+            host, port = params["host"], params["port"]
+            server_names.append(f"{name} ({host}:{port})")
+        return sorted(server_names)
 
-    def __init__(self, stub):
-        self._stub = stub
-        self._functions = Functions(self._stub)
-        self._page_factory = PageFactory()
-        self._current_directory = None
-        self._dir_tree = None
-
-    def _fetch_dir_tree(self):
-        self._dir_tree = self._functions.list_dir("")
-
-    def _get_menu_items(self):
-        self._current_directory = None
-
-    def loop_pages(self):
+    def start(self):
+        self._scan_servers()
         while True:
-            options = self._get_menu_items()
-            opt, ind = pick(options, self.MENU_TITLE)
-
-            if opt is self.DISCONNECT:
+            options = (
+                self._get_server_names()
+                + [self.BREAK, self.REFRESH, self.EXIT]
+            )
+            option, index = pick(options, f"{len(self._servers)} servers found.")
+            if option == self.EXIT:
                 break
-            elif opt == self.BREAK:
+            elif option == self.REFRESH:
+                self._scan_servers()
+            elif option == self.BREAK:
                 continue
-            elif opt in self._page_factory.pages:
-                self._page_factory.create(opt).run(self._current_directory)
             else:
-                self._navigate(opt)
+                stub, channel = self._connect_to_server(option)
+                PageNavigator(stub).loop_pages()
+                channel.close()
+                self._scan_servers()
 
+
+
+if __name__ == "__main__":
+    client = Client(host="localhost", port=50051)
+    client.start()

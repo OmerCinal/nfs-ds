@@ -1,39 +1,33 @@
 from pick import pick
-from dataclasses import dataclass
 from typing import List, Dict
-
-
-@dataclass
-class Symbols:
-    OPTION_COVER_LEFT: str = "> "
-    OPTION_COVER_RIGHT: str = ""
-
-    @classmethod
-    def make_option(cls, name: str) -> str:
-        return f"{cls.OPTION_COVER_LEFT}{name}{cls.OPTION_COVER_RIGHT}"
-
-    @classmethod
-    def make_options(cls, names: List) -> List:
-        return [cls.make_option(name) for name in names]
+from _explorer import Explorer
+from _symbols import Symbols
 
 
 class PageNavigator:
     DISCONNECT = Symbols.make_option("Disconnect")
-    BREAK = ""
+    BREAK = " "
     MENU_TITLE = "Navigate through folders or choose an action."
 
     def __init__(self, stub):
         self._stub = stub
         self._functions = Functions(self._stub)
         self._page_factory = PageFactory()
-        self._current_directory = None
-        self._dir_tree = None
+        
+        self._tree = self._functions.list_dir("")
+        self._explorer = Explorer(self._tree)
 
-    def _fetch_dir_tree(self):
-        self._dir_tree = self._functions.list_dir("")
+    def _get_actions(self) -> List:
+        actions = sorted(Symbols.make_options(self._page_factory.pages.keys()))
+        return actions + [self.BREAK, self.DISCONNECT]
 
-    def _get_menu_items(self):
-        self._current_directory = None
+    def _get_menu_items(self) -> List:
+        return (
+            self._explorer.get_folders()
+            + self._explorer.get_files()
+            + [self.BREAK]
+            + self._get_actions()
+        )
 
     def loop_pages(self):
         while True:
@@ -45,6 +39,10 @@ class PageNavigator:
             elif opt == self.BREAK:
                 continue
             elif opt in self._page_factory.pages:
-                self._page_factory.create(opt).run(self._current_directory)
+                self._page_factory.create(opt).run(self._tree, self._explorer.pwd)
+            elif opt in self._explorer.get_folders():
+                self._explorer.cd(opt)
+            elif opt in self._explorer.get_files():
+                self._explorer.get_file_info(opt)
             else:
-                self._navigate(opt)
+                raise Exception(f"Selected {opt} is unrecognized.")

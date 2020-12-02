@@ -13,7 +13,7 @@ class Functions:
         
         dir_tree = {}
         for root, dirs, files in data:
-            root = tuple(os.path.normpath(root).split(os.sep))
+            root = os.path.normpath(root)
             dir_tree[root] = {
                 "folders": dirs,
                 "files": files,
