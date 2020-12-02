@@ -8,7 +8,7 @@ import grpc
 import nfs.nfs_pb2_grpc as nfs_pb2_grpc
 import nfs.nfs_pb2 as nfs_pb2
 
-from _utils import copy_tree
+from server._utils import copy_tree
 
 
 class NfsService(nfs_pb2_grpc.NFSServicer):
@@ -16,17 +16,21 @@ class NfsService(nfs_pb2_grpc.NFSServicer):
         flag = True
         error = ""
         try:
+            print(func, ", ".join(args))
             func(*args)
-        except Exception as error:
+        except Exception as exc:
             flag = False
-
-        return nfs_pb2.Status(status=flag, error=str(error))
+            error = str(exc)
+        print(error)
+        return nfs_pb2.Status(status=flag, error=error)
 
     def list_dir(self, request, context):
         path = request.path
+        if not path:
+            path = os.path.expanduser("~")
         print(f"list_dir: path={path}")
-        data = list(os.walk(path))
-        return nfs_pb2.String(string=json.dumps(data))
+        root, folders, files = next(os.walk(path))
+        return nfs_pb2.FolderView(path=root, folders=json.dumps(folders), files=json.dumps(files))
 
     def create_dir(self, request, context):
         return self._run_command(os.mkdir, request.path)

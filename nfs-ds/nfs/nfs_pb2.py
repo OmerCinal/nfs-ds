@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\tnfs.proto\x12\x03nfs\"\'\n\x06Status\x12\x0e\n\x06status\x18\x01 \x01(\x08\x12\r\n\x05\x65rror\x18\x02 \x01(\t\"\x18\n\x06String\x12\x0e\n\x06string\x18\x01 \x01(\t\"\x14\n\x04Path\x12\x0c\n\x04path\x18\x01 \x01(\t\"*\n\nDoublePath\x12\x0e\n\x06source\x18\x01 \x01(\t\x12\x0c\n\x04sink\x18\x02 \x01(\t\"+\n\nFileUpload\x12\x0c\n\x04path\x18\x01 \x01(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x01(\x0c\"\x1f\n\x0c\x46ileDownload\x12\x0f\n\x07\x63ontent\x18\x02 \x01(\x0c\x32\x8e\x04\n\x03NFS\x12$\n\x08list_dir\x12\t.nfs.Path\x1a\x0b.nfs.String\"\x00\x12&\n\ncreate_dir\x12\t.nfs.Path\x1a\x0b.nfs.Status\"\x00\x12&\n\ndelete_dir\x12\t.nfs.Path\x1a\x0b.nfs.Status\"\x00\x12,\n\nrename_dir\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x12*\n\x08\x63opy_dir\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x12*\n\x08move_dir\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x12*\n\x08get_file\x12\t.nfs.Path\x1a\x11.nfs.FileDownload\"\x00\x12-\n\x0bupload_file\x12\x0f.nfs.FileUpload\x1a\x0b.nfs.Status\"\x00\x12\'\n\x0b\x64\x65lete_file\x12\t.nfs.Path\x1a\x0b.nfs.Status\"\x00\x12-\n\x0brename_file\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x12+\n\tcopy_file\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x12+\n\tmove_file\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\tnfs.proto\x12\x03nfs\"\'\n\x06Status\x12\x0e\n\x06status\x18\x01 \x01(\x08\x12\r\n\x05\x65rror\x18\x02 \x01(\t\"\x18\n\x06String\x12\x0e\n\x06string\x18\x01 \x01(\t\":\n\nFolderView\x12\x0c\n\x04path\x18\x01 \x01(\t\x12\x0f\n\x07\x66olders\x18\x02 \x01(\t\x12\r\n\x05\x66iles\x18\x03 \x01(\t\"\x14\n\x04Path\x12\x0c\n\x04path\x18\x01 \x01(\t\"*\n\nDoublePath\x12\x0e\n\x06source\x18\x01 \x01(\t\x12\x0c\n\x04sink\x18\x02 \x01(\t\"+\n\nFileUpload\x12\x0c\n\x04path\x18\x01 \x01(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x01(\x0c\"\x1f\n\x0c\x46ileDownload\x12\x0f\n\x07\x63ontent\x18\x02 \x01(\x0c\x32\x92\x04\n\x03NFS\x12(\n\x08list_dir\x12\t.nfs.Path\x1a\x0f.nfs.FolderView\"\x00\x12&\n\ncreate_dir\x12\t.nfs.Path\x1a\x0b.nfs.Status\"\x00\x12&\n\ndelete_dir\x12\t.nfs.Path\x1a\x0b.nfs.Status\"\x00\x12,\n\nrename_dir\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x12*\n\x08\x63opy_dir\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x12*\n\x08move_dir\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x12*\n\x08get_file\x12\t.nfs.Path\x1a\x11.nfs.FileDownload\"\x00\x12-\n\x0bupload_file\x12\x0f.nfs.FileUpload\x1a\x0b.nfs.Status\"\x00\x12\'\n\x0b\x64\x65lete_file\x12\t.nfs.Path\x1a\x0b.nfs.Status\"\x00\x12-\n\x0brename_file\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x12+\n\tcopy_file\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x12+\n\tmove_file\x12\x0f.nfs.DoublePath\x1a\x0b.nfs.Status\"\x00\x62\x06proto3'
 )
 
 
@@ -96,6 +96,52 @@ _STRING = _descriptor.Descriptor(
 )
 
 
+_FOLDERVIEW = _descriptor.Descriptor(
+  name='FolderView',
+  full_name='nfs.FolderView',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='path', full_name='nfs.FolderView.path', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='folders', full_name='nfs.FolderView.folders', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='files', full_name='nfs.FolderView.files', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=85,
+  serialized_end=143,
+)
+
+
 _PATH = _descriptor.Descriptor(
   name='Path',
   full_name='nfs.Path',
@@ -123,8 +169,8 @@ _PATH = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=85,
-  serialized_end=105,
+  serialized_start=145,
+  serialized_end=165,
 )
 
 
@@ -162,8 +208,8 @@ _DOUBLEPATH = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=107,
-  serialized_end=149,
+  serialized_start=167,
+  serialized_end=209,
 )
 
 
@@ -201,8 +247,8 @@ _FILEUPLOAD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=151,
-  serialized_end=194,
+  serialized_start=211,
+  serialized_end=254,
 )
 
 
@@ -233,12 +279,13 @@ _FILEDOWNLOAD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=196,
-  serialized_end=227,
+  serialized_start=256,
+  serialized_end=287,
 )
 
 DESCRIPTOR.message_types_by_name['Status'] = _STATUS
 DESCRIPTOR.message_types_by_name['String'] = _STRING
+DESCRIPTOR.message_types_by_name['FolderView'] = _FOLDERVIEW
 DESCRIPTOR.message_types_by_name['Path'] = _PATH
 DESCRIPTOR.message_types_by_name['DoublePath'] = _DOUBLEPATH
 DESCRIPTOR.message_types_by_name['FileUpload'] = _FILEUPLOAD
@@ -258,6 +305,13 @@ String = _reflection.GeneratedProtocolMessageType('String', (_message.Message,),
   # @@protoc_insertion_point(class_scope:nfs.String)
   })
 _sym_db.RegisterMessage(String)
+
+FolderView = _reflection.GeneratedProtocolMessageType('FolderView', (_message.Message,), {
+  'DESCRIPTOR' : _FOLDERVIEW,
+  '__module__' : 'nfs_pb2'
+  # @@protoc_insertion_point(class_scope:nfs.FolderView)
+  })
+_sym_db.RegisterMessage(FolderView)
 
 Path = _reflection.GeneratedProtocolMessageType('Path', (_message.Message,), {
   'DESCRIPTOR' : _PATH,
@@ -296,8 +350,8 @@ _NFS = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=230,
-  serialized_end=756,
+  serialized_start=290,
+  serialized_end=820,
   methods=[
   _descriptor.MethodDescriptor(
     name='list_dir',
@@ -305,7 +359,7 @@ _NFS = _descriptor.ServiceDescriptor(
     index=0,
     containing_service=None,
     input_type=_PATH,
-    output_type=_STRING,
+    output_type=_FOLDERVIEW,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),

@@ -11,6 +11,12 @@ message String {
 	string string = 1; 
 }
 
+message FolderView {
+   string path = 1;
+   string folders = 2;
+   string files = 3;
+}
+
 message Path {
 	string path = 1; 
 }
@@ -30,7 +36,7 @@ message FileDownload {
 }
 
 service NFS {
-   rpc list_dir(Path) returns (String) {}
+   rpc list_dir(Path) returns (FolderView) {}
    rpc create_dir(Path) returns (Status) {}
    rpc delete_dir(Path) returns (Status) {}
    rpc rename_dir(DoublePath) returns (Status) {}

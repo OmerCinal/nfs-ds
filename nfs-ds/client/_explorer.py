@@ -1,33 +1,43 @@
 from typing import Dict, List
 import os
+from ._functions import Functions
 
 
 class Explorer:
-    FOLDERS = "folders"
-    FILES = "files"
     PARENT = ".."
 
-    def __init__(self, tree: Dict, pwd: str = None):
-        self.tree = tree
-        self.pwd = pwd or min(tree.keys(), key=lambda x: x.count(os.sep))
+    def __init__(self, root: Dict, stub):
+        self._functions = Functions(stub)
+        self._update_tree(root)
+
+    def _update_tree(self, root: str):
+        tree = self._functions.list_dir(root)
+        self.root = tree["root"]
+        self.folders = tree["folders"]
+        self.files = tree["files"]
 
     def cd(self, folder: str):
         folder = os.path.normpath(folder)
         # cd ..
         if folder == self.PARENT:
-            self.pwd = os.path.basename(self.pwd)
+            path = os.path.dirname(self.root)
         # cd folder
-        elif folder in self.tree[self.pwd][self.FOLDERS]:
-            self.pwd = os.path.join(self.pwd, folder)
+        elif folder in self.folders:
+            path = os.path.join(self.root, folder)
         # something aint right
         else:
-            raise Exception(f"{folder} doesn't exist in {self.pwd}")
+            raise Exception(f"{folder} doesn't exist in {self.root}")
+
+        self._update_tree(path)
 
     def get_folders(self) -> List:
-        return [self.PARENT] + sorted(self.tree[self.pwd][self.FOLDERS])
+        return [self.PARENT] + sorted(self.folders)
 
     def get_files(self) -> List:
-        return sorted(self.tree[self.pwd][self.FILES])
+        return sorted(self.files)
+
+    def ls(self):
+        return self.get_folders() + self.get_files()
 
     def get_path(self, file: str) -> str:
-        return os.path.join(self.pwd, file)
+        return os.path.join(self.root, file)

@@ -1,7 +1,9 @@
 from pick import pick
 from typing import List, Dict
-from _explorer import Explorer
-from _symbols import Symbols
+from ._explorer import Explorer
+from ._symbols import Symbols
+from ._functions import Functions
+from ._page_factory import PageFactory
 
 
 class PageNavigator:
@@ -14,8 +16,7 @@ class PageNavigator:
         self._functions = Functions(self._stub)
         self._page_factory = PageFactory()
         
-        self._tree = self._functions.list_dir("")
-        self._explorer = Explorer(self._tree)
+        self._explorer = Explorer("", self._stub)
 
     def _get_actions(self) -> List:
         actions = sorted(Symbols.make_options(self._page_factory.pages.keys()))
@@ -23,8 +24,7 @@ class PageNavigator:
 
     def _get_menu_items(self) -> List:
         return (
-            self._explorer.get_folders()
-            + self._explorer.get_files()
+            self._explorer.ls()
             + [self.BREAK]
             + self._get_actions()
         )
@@ -38,8 +38,8 @@ class PageNavigator:
                 break
             elif opt == self.BREAK:
                 continue
-            elif opt in self._page_factory.pages:
-                self._page_factory.create(opt, self._tree, self._explorer.pwd).run()
+            elif Symbols.clean(opt) in self._page_factory.pages:
+                self._page_factory.create(opt, root=self._explorer.root, stub=self._stub).run()
             elif opt in self._explorer.get_folders():
                 self._explorer.cd(opt)
             elif opt in self._explorer.get_files():

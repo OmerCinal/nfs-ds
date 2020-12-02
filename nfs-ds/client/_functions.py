@@ -9,17 +9,11 @@ class Functions:
     def list_dir(self, path: str):
         message = nfs_pb2.Path(path=path)
         response = self.stub.list_dir(message)
-        data = json.loads(response.string)
-        
-        dir_tree = {}
-        for root, dirs, files in data:
-            root = os.path.normpath(root)
-            dir_tree[root] = {
-                "folders": dirs,
-                "files": files,
-            } 
-        return dir_tree
-
+        return {
+            "root": response.path,
+            "folders": json.loads(response.folders),
+            "files": json.loads(response.files),
+        }
 
     def copy_dir(self, source: str, sink: str):
         message = nfs_pb2.DoublePath(

@@ -14,3 +14,6 @@ class Symbols:
     def make_options(cls, names: List) -> List:
         return [cls.make_option(name) for name in names]
 
+    @classmethod
+    def clean(cls, name: str) -> str:
+        return name.strip(cls.OPTION_COVER_LEFT).strip(cls.OPTION_COVER_RIGHT)

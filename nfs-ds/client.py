@@ -2,14 +2,15 @@ import json
 import grpc
 import nfs.nfs_pb2_grpc as nfs_pb2_grpc
 import nfs.nfs_pb2 as nfs_pb2
-from _functions import Functions
+from client._functions import Functions
 from pick import pick
 from typing import List, Dict
-from _symbols import Symbols
-from _navigator import PageNavigator
+from client._symbols import Symbols
+from client._navigator import PageNavigator
 
 
 class Client:
+    SEPARATOR = " := "
     BREAK = " "
     REFRESH = Symbols.make_option("Refresh Servers")
     EXIT = Symbols.make_option("Exit")
@@ -24,6 +25,7 @@ class Client:
         }
 
     def _connect_to_server(self, server_name: str):
+        server_name, _ = server_name.split(self.SEPARATOR)
         host = self._servers[server_name]["host"]
         port = self._servers[server_name]["port"]
         channel = grpc.insecure_channel(f"{host}:{port}")
@@ -33,7 +35,7 @@ class Client:
         server_names = []
         for name, params in self._servers.items():
             host, port = params["host"], params["port"]
-            server_names.append(f"{name} ({host}:{port})")
+            server_names.append(f"{name}{self.SEPARATOR}({host}:{port})")
         return sorted(server_names)
 
     def start(self):
@@ -59,5 +61,5 @@ class Client:
 
 
 if __name__ == "__main__":
-    client = Client(host="localhost", port=50051)
+    client = Client()
     client.start()

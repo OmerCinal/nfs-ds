@@ -17,7 +17,7 @@ class NFSStub(object):
         self.list_dir = channel.unary_unary(
                 '/nfs.NFS/list_dir',
                 request_serializer=nfs__pb2.Path.SerializeToString,
-                response_deserializer=nfs__pb2.String.FromString,
+                response_deserializer=nfs__pb2.FolderView.FromString,
                 )
         self.create_dir = channel.unary_unary(
                 '/nfs.NFS/create_dir',
@@ -157,7 +157,7 @@ def add_NFSServicer_to_server(servicer, server):
             'list_dir': grpc.unary_unary_rpc_method_handler(
                     servicer.list_dir,
                     request_deserializer=nfs__pb2.Path.FromString,
-                    response_serializer=nfs__pb2.String.SerializeToString,
+                    response_serializer=nfs__pb2.FolderView.SerializeToString,
             ),
             'create_dir': grpc.unary_unary_rpc_method_handler(
                     servicer.create_dir,
@@ -237,7 +237,7 @@ class NFS(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/nfs.NFS/list_dir',
             nfs__pb2.Path.SerializeToString,
-            nfs__pb2.String.FromString,
+            nfs__pb2.FolderView.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

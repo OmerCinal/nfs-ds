@@ -1,31 +1,26 @@
-from _pages import (
-    CopyDir,
-    DeleteDir,
+from ._pages import (
+    Copy,
+    Move,
+    Rename,
+    Delete,
+    Create,
     GetFile,
     UploadFile,
-    CreateDir,
-    RenameDir,
-    MoveDir,
-    DeleteFile,
-    RenameFile,
-    CopyFile,
-    MoveFile,
+    _Page,
 )
+from ._symbols import Symbols
 
 class PageFactory:
     def __init__(self):
         self.pages = {
-            "copy_dir": CopyDir,
-            "delete_dir": DeleteDir,
-            "get_file": GetFile,
-            "upload_file": UploadFile,
-            "create_dir": CreateDir,
-            "rename_dir": RenameDir,
-            "move_dir": MoveDir,
-            "delete_file": DeleteFile,
-            "rename_file": RenameFile,
-            "copy_file": CopyFile,
-            "move_file": MoveFile,
+            "Copy": Copy,
+            "Move": Move,
+            "Rename": Rename,
+            "Delete": Delete,
+            "Create": Create,
+            "Download": GetFile,
+            "Upload": UploadFile,
         } 
-    def create(self, page_name: str, tree: str, pwd: str):
-        return self.pages[page_name](tree=tree, pwd=pwd)
+    def create(self, page_name: str, root: str, stub) -> _Page:
+        page_name = Symbols.clean(page_name)
+        return self.pages[page_name](root=root, stub=stub)
