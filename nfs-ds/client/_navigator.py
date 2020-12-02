@@ -25,7 +25,6 @@ class PageNavigator:
         return actions + [self.BREAK, self.DISCONNECT]
 
     def _get_menu_items(self) -> List:
-        self._explorer.update_tree(self._explorer.root)
         return self._explorer.ls() + [self.BREAK] + self._get_actions()
 
     def _confirm(self, question: str) -> bool:
@@ -46,6 +45,7 @@ class PageNavigator:
                 self._page_factory.create(
                     opt, root=self._explorer.root, stub=self._stub
                 ).run()
+                self._explorer.update_tree(self._explorer.root)
             elif opt in self._explorer.get_folders():
                 self._explorer.cd(opt)
             elif opt in self._explorer.get_files():
