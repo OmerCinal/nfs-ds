@@ -6,6 +6,7 @@ from _functions import Functions
 from pick import pick
 from typing import List, Dict
 from _symbols import Symbols
+from _navigator import PageNavigator
 
 
 class Client:

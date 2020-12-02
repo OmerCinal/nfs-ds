@@ -1,48 +1,72 @@
-from pick import pick
-from typing import List, Dict
 from _explorer import Explorer
-from _symbols import Symbols
+from abc import ABC, abstractmethod
+from pick import pick
+import os
 
 
-class PageNavigator:
-    DISCONNECT = Symbols.make_option("Disconnect")
-    BREAK = " "
-    MENU_TITLE = "Navigate through folders or choose an action."
+class _Page(ABC):
+    @abstractmethod
+    def run(self):
+        pass
 
-    def __init__(self, stub):
-        self._stub = stub
-        self._functions = Functions(self._stub)
-        self._page_factory = PageFactory()
-        
-        self._tree = self._functions.list_dir("")
-        self._explorer = Explorer(self._tree)
 
-    def _get_actions(self) -> List:
-        actions = sorted(Symbols.make_options(self._page_factory.pages.keys()))
-        return actions + [self.BREAK, self.DISCONNECT]
+class _Navigatable:
+    def __init__(self, tree: str, pwd: str):
+        self._tree = tree
+        self._explorer = Explorer(self._tree, pwd)
 
-    def _get_menu_items(self) -> List:
-        return (
-            self._explorer.get_folders()
-            + self._explorer.get_files()
-            + [self.BREAK]
-            + self._get_actions()
-        )
 
-    def loop_pages(self):
-        while True:
-            options = self._get_menu_items()
-            opt, ind = pick(options, self.MENU_TITLE)
+class CopyDir(_Page, _Navigatable):
+    def run(self):
+        pass
 
-            if opt is self.DISCONNECT:
-                break
-            elif opt == self.BREAK:
-                continue
-            elif opt in self._page_factory.pages:
-                self._page_factory.create(opt).run(self._tree, self._explorer.pwd)
-            elif opt in self._explorer.get_folders():
-                self._explorer.cd(opt)
-            elif opt in self._explorer.get_files():
-                self._explorer.get_file_info(opt)
-            else:
-                raise Exception(f"Selected {opt} is unrecognized.")
+
+class DeleteDir(_Page, _Navigatable):
+    def run(self):
+        pass
+
+
+class GetFile(_Page, _Navigatable):
+    def run(self):
+        pass
+
+
+class UploadFile(_Page, _Navigatable):
+    def run(self):
+        pass
+
+
+class CreateDir(_Page, _Navigatable):
+    def run(self):
+        pass
+
+
+class RenameDir(_Page, _Navigatable):
+    def run(self):
+        pass
+
+
+class MoveDir(_Page, _Navigatable):
+    def run(self):
+        pass
+
+
+class DeleteFile(_Page, _Navigatable):
+    def run(self):
+        pass
+
+
+class RenameFile(_Page, _Navigatable):
+    def run(self):
+        pass
+
+
+class CopyFile(_Page, _Navigatable):
+    def run(self):
+        pass
+
+
+class MoveFile(_Page, _Navigatable):
+    def run(self):
+        pass
+

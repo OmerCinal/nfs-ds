@@ -105,3 +105,6 @@ class Functions:
         message = nfs_pb2.DoublePath(source=source, sink=sink)
         response = self.stub.move_file(message)
         return response.status    
+
+    def get_file_info(self, path: str) -> str:
+        return "Not implemented yet"

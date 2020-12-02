@@ -28,3 +28,6 @@ class Explorer:
 
     def get_files(self) -> List:
         return sorted(self.tree[self.pwd][self.FILES])
+
+    def get_path(self, file: str) -> str:
+        return os.path.join(self.pwd, file)
