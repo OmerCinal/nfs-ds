@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import List
 
+
 @dataclass
 class Symbols:
     OPTION_COVER_LEFT: str = "> "

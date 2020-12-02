@@ -1,12 +1,13 @@
 import json
+from typing import Dict, List
+
 import grpc
-import nfs.nfs_pb2_grpc as nfs_pb2_grpc
 import nfs.nfs_pb2 as nfs_pb2
+import nfs.nfs_pb2_grpc as nfs_pb2_grpc
 from client._functions import Functions
-from pick import pick
-from typing import List, Dict
-from client._symbols import Symbols
 from client._navigator import PageNavigator
+from client._symbols import Symbols
+from pick import pick
 
 
 class Client:
@@ -19,10 +20,7 @@ class Client:
         self._servers = {}
 
     def _scan_servers(self):
-        self._servers["Localhost"] = {
-            "host": "localhost",
-            "port": 50051
-        }
+        self._servers["Localhost"] = {"host": "localhost", "port": 50051}
 
     def _connect_to_server(self, server_name: str):
         server_name, _ = server_name.split(self.SEPARATOR)
@@ -41,10 +39,7 @@ class Client:
     def start(self):
         self._scan_servers()
         while True:
-            options = (
-                self._get_server_names()
-                + [self.BREAK, self.REFRESH, self.EXIT]
-            )
+            options = self._get_server_names() + [self.BREAK, self.REFRESH, self.EXIT]
             option, index = pick(options, f"{len(self._servers)} servers found.")
             if option == self.EXIT:
                 break
@@ -57,7 +52,6 @@ class Client:
                 PageNavigator(stub).loop_pages()
                 channel.close()
                 self._scan_servers()
-
 
 
 if __name__ == "__main__":

@@ -1,6 +1,8 @@
 import json
-import nfs.nfs_pb2 as nfs_pb2    
 import os
+
+import nfs.nfs_pb2 as nfs_pb2
+
 
 class Functions:
     def __init__(self, stub):
@@ -16,26 +18,17 @@ class Functions:
         }
 
     def copy_dir(self, source: str, sink: str):
-        message = nfs_pb2.DoublePath(
-            source=source,
-            sink=sink
-        )
+        message = nfs_pb2.DoublePath(source=source, sink=sink)
         response = self.stub.copy_dir(message)
         return response.status
 
-
     def delete_dir(self, path: str):
-        message = nfs_pb2.Path(
-            path=path
-        )
+        message = nfs_pb2.Path(path=path)
         response = self.stub.delete_dir(message)
         return response.status
 
-
     def get_file(self, source: str, sink: str):
-        message = nfs_pb2.Path(
-            path=source
-        )
+        message = nfs_pb2.Path(path=source)
         flag = True
         try:
             response = self.stub.get_file(message)
@@ -44,9 +37,8 @@ class Functions:
         except Exception as exc:
             print(exc)
             flag = False
-        
-        return flag
 
+        return flag
 
     def upload_file(self, source: str, sink: str):
         flag = True
@@ -59,47 +51,40 @@ class Functions:
             flag = False
         return flag
 
-
     def create_dir(self, path: str):
         message = nfs_pb2.Path(path=path)
         response = self.stub.create_dir(message)
         return response.status
-
 
     def rename_dir(self, source: str, sink: str):
         message = nfs_pb2.DoublePath(source=source, sink=sink)
         response = self.stub.rename_dir(message)
         return response.status
 
-
     def move_dir(self, source: str, sink: str):
         message = nfs_pb2.DoublePath(source=source, sink=sink)
         response = self.stub.move_dir(message)
         return response.status
-
 
     def delete_file(self, path: str):
         message = nfs_pb2.Path(path=path)
         response = self.stub.delete_file(message)
         return response.status
 
-
     def rename_file(self, source: str, sink: str):
         message = nfs_pb2.DoublePath(source=source, sink=sink)
         response = self.stub.rename_file(message)
-        return response.status    
-
+        return response.status
 
     def copy_file(self, source: str, sink: str):
         message = nfs_pb2.DoublePath(source=source, sink=sink)
         response = self.stub.copy_file(message)
         return response.status
 
-
     def move_file(self, source: str, sink: str):
         message = nfs_pb2.DoublePath(source=source, sink=sink)
         response = self.stub.move_file(message)
-        return response.status    
+        return response.status
 
     def get_file_info(self, path: str) -> str:
         return "Not implemented yet"

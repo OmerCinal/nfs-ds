@@ -2,6 +2,7 @@ import os
 import shutil
 from typing import Any
 
+
 def copy_tree(src: str, dst: str, symlinks: bool = False, ignore: Any = None):
     for item in os.listdir(src):
         s = os.path.join(src, item)

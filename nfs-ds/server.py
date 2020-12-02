@@ -1,13 +1,11 @@
-from concurrent import futures
-
+import json
 import os
 import shutil
-import json
+from concurrent import futures
 
 import grpc
-import nfs.nfs_pb2_grpc as nfs_pb2_grpc
 import nfs.nfs_pb2 as nfs_pb2
-
+import nfs.nfs_pb2_grpc as nfs_pb2_grpc
 from server._utils import copy_tree
 
 
@@ -30,23 +28,25 @@ class NfsService(nfs_pb2_grpc.NFSServicer):
             path = os.path.expanduser("~")
         print(f"list_dir: path={path}")
         root, folders, files = next(os.walk(path))
-        return nfs_pb2.FolderView(path=root, folders=json.dumps(folders), files=json.dumps(files))
+        return nfs_pb2.FolderView(
+            path=root, folders=json.dumps(folders), files=json.dumps(files)
+        )
 
     def create_dir(self, request, context):
         return self._run_command(os.mkdir, request.path)
-        
+
     def delete_dir(self, request, context):
         return self._run_command(shutil.rmtree, request.path)
 
     def rename_dir(self, request, context):
         return self._run_command(os.rename, request.source, request.sink)
-        
+
     def copy_dir(self, request, context):
         return self._run_command(copy_tree, request.source, request.sink)
 
     def move_dir(self, request, context):
         return self._run_command(shutil.move, request.source, request.sink)
-        
+
     def get_file(self, request, context):
         with open(request.path, "rb") as fp:
             content = fp.read()

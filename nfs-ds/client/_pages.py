@@ -1,9 +1,11 @@
-from ._explorer import LocalExplorer, RemoteExplorer
-from ._symbols import Symbols
-from ._functions import Functions
-from abc import ABC, abstractmethod
-from pick import pick
 import os
+from abc import ABC, abstractmethod
+
+from pick import pick
+
+from ._explorer import LocalExplorer, RemoteExplorer
+from ._functions import Functions
+from ._symbols import Symbols
 
 
 # Page interface
@@ -11,6 +13,7 @@ class _Page(ABC):
     @abstractmethod
     def run(self) -> bool:
         pass
+
 
 # Page baseclass
 class _Navigatable:
@@ -53,7 +56,7 @@ class _Navigatable:
 
     def _get_sink_folder(self, title: str, explorer):
         sink = None
-        while  True:
+        while True:
             options = explorer.ls() + [self.BREAK, self.HERE, self.CANCEL]
             opt, ind = pick(options, title)
 
@@ -71,7 +74,7 @@ class _Navigatable:
 
     def _get_source_file(self, title: str, explorer):
         sink = None
-        while  True:
+        while True:
             options = explorer.ls() + [self.BREAK, self.CANCEL]
             opt, ind = pick(options, title)
 
@@ -91,14 +94,18 @@ class _Navigatable:
         return input(f"{title}\n>>") or None
 
 
-# Pages # 
+# Pages #
 class Copy(_Page, _Navigatable):
     def run(self) -> bool:
-        source, source_type = self._get_source("Select the source file or folder to copy", self._remote_explorer)
+        source, source_type = self._get_source(
+            "Select the source file or folder to copy", self._remote_explorer
+        )
         sink = None
         successful = False
         if source is not None:
-            sink = self._get_sink_folder("Select the destination folder to copy", self._remote_explorer)
+            sink = self._get_sink_folder(
+                "Select the destination folder to copy", self._remote_explorer
+            )
             if sink is not None:
                 if source_type == self.FOLDER_TYPE:
                     func = self._functions.copy_dir
@@ -120,11 +127,15 @@ class Copy(_Page, _Navigatable):
 
 class Move(_Page, _Navigatable):
     def run(self) -> bool:
-        source, source_type = self._get_source("Select the source file or folder to move", self._remote_explorer)
+        source, source_type = self._get_source(
+            "Select the source file or folder to move", self._remote_explorer
+        )
         sink = None
         successful = False
         if source is not None:
-            sink = self._get_sink_folder("Select the destination folder to move", self._remote_explorer)
+            sink = self._get_sink_folder(
+                "Select the destination folder to move", self._remote_explorer
+            )
             if sink is not None:
                 if source_type == self.FOLDER_TYPE:
                     func = self._functions.move_dir
@@ -146,7 +157,9 @@ class Move(_Page, _Navigatable):
 
 class Rename(_Page, _Navigatable):
     def run(self) -> bool:
-        source, source_type = self._get_source("Select a file or a folder to rename", self._remote_explorer)
+        source, source_type = self._get_source(
+            "Select a file or a folder to rename", self._remote_explorer
+        )
         successful = False
         if source is not None:
             new_name = self._get_text_input(f"Rename {os.path.basename(source)} to?")
@@ -171,9 +184,11 @@ class Rename(_Page, _Navigatable):
 
 class Delete(_Page, _Navigatable):
     def run(self) -> bool:
-        source, source_type = self._get_source("Select a file or a folder to remove", self._remote_explorer)
+        source, source_type = self._get_source(
+            "Select a file or a folder to remove", self._remote_explorer
+        )
         successful = False
-        if source is not None:    
+        if source is not None:
             if source_type == self.FOLDER_TYPE:
                 func = self._functions.delete_dir
             else:
@@ -194,18 +209,27 @@ class Create(_Page, _Navigatable):
     def run(self) -> bool:
         folder_name = self._get_text_input("Enter a folder name.")
         successful = False
-        if folder_name is not None and self._confirm(f"Do you want to create {folder_name} in \n{self._remote_explorer.root}"):
-            successful = self._functions.create_dir(os.path.join(self._remote_explorer.root, folder_name))
+        if folder_name is not None and self._confirm(
+            f"Do you want to create {folder_name} in \n{self._remote_explorer.root}"
+        ):
+            successful = self._functions.create_dir(
+                os.path.join(self._remote_explorer.root, folder_name)
+            )
 
         return successful
 
 
 class GetFile(_Page, _Navigatable):
     def run(self) -> bool:
-        source = self._get_source_file("Select a file to download", self._remote_explorer)
+        source = self._get_source_file(
+            "Select a file to download", self._remote_explorer
+        )
         successful = False
         if source is not None:
-            sink = self._get_sink_folder(f"Select a folder to download {os.path.basename(source)}", self._local_explorer)
+            sink = self._get_sink_folder(
+                f"Select a folder to download {os.path.basename(source)}",
+                self._local_explorer,
+            )
             if sink is not None:
                 sink = os.path.join(sink, os.path.basename(source))
                 successful = self._functions.get_file(source=source, sink=sink)
@@ -218,11 +242,12 @@ class UploadFile(_Page, _Navigatable):
         source = self._get_source_file("Select a file to upload", self._local_explorer)
         successful = False
         if source is not None:
-            sink = self._get_sink_folder(f"Select a folder to save {os.path.basename(source)}", self._remote_explorer)
+            sink = self._get_sink_folder(
+                f"Select a folder to save {os.path.basename(source)}",
+                self._remote_explorer,
+            )
             if sink is not None:
                 sink = os.path.join(sink, os.path.basename(source))
                 successful = self._functions.upload_file(source=source, sink=sink)
 
         return successful
-
-
