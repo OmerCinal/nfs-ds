@@ -63,7 +63,7 @@ class NfsService(nfs_pb2_grpc.NFSServicer):
         return nfs_pb2.Status(status=flag, error=error)
 
     def delete_file(self, request, context):
-        return self._run_command(os.remove, request.source, request.sink)
+        return self._run_command(os.remove, request.path)
 
     def rename_file(self, request, context):
         return self._run_command(os.rename, request.source, request.sink)

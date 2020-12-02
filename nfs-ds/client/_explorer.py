@@ -3,18 +3,8 @@ import os
 from ._functions import Functions
 
 
-class Explorer:
+class _Explorer:
     PARENT = ".."
-
-    def __init__(self, root: Dict, stub):
-        self._functions = Functions(stub)
-        self.update_tree(root)
-
-    def update_tree(self, root: str):
-        tree = self._functions.list_dir(root)
-        self.root = tree["root"]
-        self.folders = tree["folders"]
-        self.files = tree["files"]
 
     def cd(self, folder: str):
         folder = os.path.normpath(folder)
@@ -41,3 +31,23 @@ class Explorer:
 
     def get_path(self, file: str) -> str:
         return os.path.join(self.root, file)
+
+
+class RemoteExplorer(_Explorer):
+    def __init__(self, root: Dict, stub):
+        self._functions = Functions(stub)
+        self.update_tree(root)
+
+    def update_tree(self, root: str):
+        tree = self._functions.list_dir(root)
+        self.root = tree["root"]
+        self.folders = tree["folders"]
+        self.files = tree["files"]
+
+
+class LocalExplorer(_Explorer):
+    def __init__(self):
+        self.update_tree(os.path.expanduser("~"))
+
+    def update_tree(self, root: str):
+        self.root, self.folders, self.files = next(os.walk(root))

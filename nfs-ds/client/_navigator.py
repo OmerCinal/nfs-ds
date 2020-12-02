@@ -1,6 +1,6 @@
 from pick import pick
 from typing import List, Dict
-from ._explorer import Explorer
+from ._explorer import RemoteExplorer
 from ._symbols import Symbols
 from ._functions import Functions
 from ._page_factory import PageFactory
@@ -16,7 +16,7 @@ class PageNavigator:
         self._functions = Functions(self._stub)
         self._page_factory = PageFactory()
         
-        self._explorer = Explorer("", self._stub)
+        self._explorer = RemoteExplorer("", self._stub)
 
     def _get_actions(self) -> List:
         actions = sorted(Symbols.make_options(self._page_factory.pages.keys()))

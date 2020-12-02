@@ -41,7 +41,8 @@ class Functions:
             response = self.stub.get_file(message)
             with open(sink, "wb") as fp:
                 fp.write(response.content)
-        except:
+        except Exception as exc:
+            print(exc)
             flag = False
         
         return flag
