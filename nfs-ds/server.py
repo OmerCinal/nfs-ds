@@ -75,11 +75,11 @@ class NfsService(nfs_pb2_grpc.NFSServicer):
         return self._run_command(shutil.move, request.source, request.sink)
 
 
-def serve(port: int, max_workers: int = 10):
+def serve(host: str, port: int, max_workers: int = 10):
     print(f"Starting the server with {max_workers} workers.")
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=max_workers))
     nfs_pb2_grpc.add_NFSServicer_to_server(NfsService(), server)
-    server.add_insecure_port(f"[::]:{port}")
+    server.add_insecure_port(f"{host}:{port}")
     server.start()
     print(f"Listening on port {port}.")
     try:
@@ -89,4 +89,4 @@ def serve(port: int, max_workers: int = 10):
 
 
 if __name__ == "__main__":
-    serve(port=50051)
+    serve(host="0.0.0.0", port=50051)

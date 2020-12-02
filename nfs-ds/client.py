@@ -21,6 +21,7 @@ class Client:
 
     def _scan_servers(self):
         self._servers["Localhost"] = {"host": "localhost", "port": 50051}
+        self._servers["Test"] = {"host": "192.168.1.37", "port": 50051}
 
     def _connect_to_server(self, server_name: str):
         server_name, _ = server_name.split(self.SEPARATOR)
