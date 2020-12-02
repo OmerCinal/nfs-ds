@@ -9,7 +9,7 @@ import os
 # Page interface
 class _Page(ABC):
     @abstractmethod
-    def run(self):
+    def run(self) -> bool:
         pass
 
 # Page baseclass
@@ -24,22 +24,12 @@ class _Navigatable:
         self._explorer = Explorer(root, stub)
         self._functions = Functions(stub)
 
-    def _confirm(self, question: str) -> str:
+    def _confirm(self, question: str) -> bool:
         option, index = pick(Symbols.make_options(["No", "Yes"]), question)
-        return option == "Yes"
+        return Symbols.clean(option) == "Yes"
 
-
-# Pages # 
-class Copy(_Page, _Navigatable):
-    def _copy(self, source: str, sink: str, copy_type: str):
-        if self._confirm(f"Are you sure you want to copy {source} to {sink}?"):
-            if copy_type == self.FOLDER_TYPE:
-                self._functions.copy_dir(source=source, sink=sink)
-            else:
-                self._functions.copy_file(source=source, sink=sink)
-    
     def _get_source(self, title: str):
-        copy_type = None
+        source_type = None
         source = None
         while True:
             options = self._explorer.ls() + [self.BREAK, self.CANCEL]
@@ -50,15 +40,15 @@ class Copy(_Page, _Navigatable):
             elif opt == self.CANCEL:
                 break
             elif opt in self._explorer.get_folders():
-                copy_type = self.FOLDER_TYPE
+                source_type = self.FOLDER_TYPE
                 source = self._explorer.get_path(opt)
                 break
             elif opt in self._explorer.get_files():
-                copy_type = self.FILE_TYPE
+                source_type = self.FILE_TYPE
                 source = self._explorer.get_path(opt)
                 break
 
-        return source, copy_type
+        return source, source_type
 
     def _get_sink_folder(self, title: str):
         sink = None
@@ -78,49 +68,144 @@ class Copy(_Page, _Navigatable):
 
         return sink
 
-    def run(self):
-        source, copy_type = self._get_source("Select the source file or folder to copy")
+    def _get_sink_file(self, title: str):
         sink = None
+        while  True:
+            options = self._explorer.ls() + [self.BREAK, self.CANCEL]
+            opt, ind = pick(options, title)
+
+            if opt == self.BREAK:
+                continue
+            elif opt == self.CANCEL:
+                break
+            elif opt in self._explorer.get_files():
+                sink = os.path.join(self._explorer.root, opt)
+                break
+            elif opt in self._explorer.get_folders():
+                self._explorer.cd(opt)
+
+        return sink
+
+    def _get_text_input(self, title: str) -> str:
+        return input(f"{title}\n>>") or None
+
+
+# Pages # 
+class Copy(_Page, _Navigatable):
+    def run(self) -> bool:
+        source, source_type = self._get_source("Select the source file or folder to copy")
+        sink = None
+        successful = False
         if source is not None:
             sink = self._get_sink_folder("Select the destination folder to copy")
-            sink = os.path.join(sink, os.path.basename(source))
+            if sink is not None:
+                if source_type == self.FOLDER_TYPE:
+                    func = self._functions.copy_dir
+                else:
+                    sink = os.path.join(sink, os.path.basename(source))
+                    func = self._functions.copy_file
 
-        if source is not None and sink is not None:
-            if copy_type == self.FOLDER_TYPE:
-                self._functions.copy_dir(source=source, sink=sink)
-            else:
-                self._functions.copy_file(source=source, sink=sink)
+                question = (
+                    "Are you sure you want to proceed?\n"
+                    + f"Source: {source}\n"
+                    + f"Destination: {sink}"
+                )
+                if self._confirm(question):
+                    func(source=source, sink=sink)
+                    successful = True
 
-
+        return successful
 
 
 class Move(_Page, _Navigatable):
-    def run(self):
-        pass
+    def run(self) -> bool:
+        source, source_type = self._get_source("Select the source file or folder to move")
+        sink = None
+        successful = False
+        if source is not None:
+            sink = self._get_sink_folder("Select the destination folder to move")
+            if sink is not None:
+                if source_type == self.FOLDER_TYPE:
+                    func = self._functions.move_dir
+                else:
+                    sink = os.path.join(sink, os.path.basename(source))
+                    func = self._functions.move_file
+
+                question = (
+                    "Are you sure you want to proceed?\n"
+                    + f"Source: {source}\n"
+                    + f"Destination: {sink}"
+                )
+                if self._confirm(question):
+                    func(source=source, sink=sink)
+                    successful = True
+
+        return successful
 
 
 class Rename(_Page, _Navigatable):
-    def run(self):
-        pass
+    def run(self) -> bool:
+        source, source_type = self._get_source("Select a file or a folder to rename")
+        successful = False
+        if source is not None:
+            new_name = self._get_text_input(f"Rename {os.path.basename(source)} to?")
+            new_name = os.path.join(os.path.dirname(source), new_name)
+            if new_name is not None:
+                if source_type == self.FOLDER_TYPE:
+                    func = self._functions.rename_dir
+                else:
+                    func = self._functions.rename_file
+
+                question = (
+                    "Are you sure you want to rename the file?\n"
+                    + f"Original: {os.path.basename(source)}\n"
+                    + f"New name: {os.path.basename(new_name)}"
+                )
+
+                if self._confirm(question):
+                    successful = func(source=source, sink=new_name)
+
+        return successful
 
 
 class Delete(_Page, _Navigatable):
-    def run(self):
-        pass
+    def run(self) -> bool:
+        source, source_type = self._get_source("Select a file or a folder to remove")
+        successful = False
+        if source is not None:    
+            if source_type == self.FOLDER_TYPE:
+                func = self._functions.delete_dir
+            else:
+                func = self._functions.delete_file
+
+            question = (
+                "Are you sure you want to remove the file/folder?\n"
+                + f"{os.path.basename(source)}\n"
+            )
+
+            if self._confirm(question):
+                successful = func(source)
+
+        return successful
 
 
 class Create(_Page, _Navigatable):
-    def run(self):
-        pass
+    def run(self) -> bool:
+        folder_name = self._get_text_input("Enter a folder name.")
+        successful = False
+        if folder_name is not None and self._confirm(f"Do you want to create {folder_name} in \n{self._explorer.root}"):
+            successful = self._functions.create_dir(os.path.join(self._explorer.root, folder_name))
+
+        return successful
 
 
 class GetFile(_Page, _Navigatable):
-    def run(self):
+    def run(self) -> bool:
         pass
 
 
 class UploadFile(_Page, _Navigatable):
-    def run(self):
+    def run(self) -> bool:
         pass
 
 

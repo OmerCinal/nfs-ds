@@ -8,9 +8,9 @@ class Explorer:
 
     def __init__(self, root: Dict, stub):
         self._functions = Functions(stub)
-        self._update_tree(root)
+        self.update_tree(root)
 
-    def _update_tree(self, root: str):
+    def update_tree(self, root: str):
         tree = self._functions.list_dir(root)
         self.root = tree["root"]
         self.folders = tree["folders"]
@@ -28,7 +28,7 @@ class Explorer:
         else:
             raise Exception(f"{folder} doesn't exist in {self.root}")
 
-        self._update_tree(path)
+        self.update_tree(path)
 
     def get_folders(self) -> List:
         return [self.PARENT] + sorted(self.folders)

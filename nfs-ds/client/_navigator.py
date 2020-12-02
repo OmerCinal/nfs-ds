@@ -23,11 +23,16 @@ class PageNavigator:
         return actions + [self.BREAK, self.DISCONNECT]
 
     def _get_menu_items(self) -> List:
+        self._explorer.update_tree(self._explorer.root)
         return (
             self._explorer.ls()
             + [self.BREAK]
             + self._get_actions()
         )
+
+    def _confirm(self, question: str) -> bool:
+        option, index = pick(Symbols.make_options(["No", "Yes"]), question)
+        return Symbols.clean(option) == "Yes"
 
     def loop_pages(self):
         while True:
@@ -35,7 +40,8 @@ class PageNavigator:
             opt, ind = pick(options, self.MENU_TITLE)
 
             if opt is self.DISCONNECT:
-                break
+                if self._confirm("Are you sure you want to disconnect?"):
+                    break
             elif opt == self.BREAK:
                 continue
             elif Symbols.clean(opt) in self._page_factory.pages:
