@@ -13,8 +13,8 @@ message String {
 
 message FolderView {
    string path = 1;
-   string folders = 2;
-   string files = 3;
+   repeated string folders = 2;
+   repeated string files = 3;
 }
 
 message Path {

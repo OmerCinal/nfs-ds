@@ -29,7 +29,7 @@ class NfsService(nfs_pb2_grpc.NFSServicer):
         print(f"list_dir: path={path}")
         root, folders, files = next(os.walk(path))
         return nfs_pb2.FolderView(
-            path=root, folders=json.dumps(folders), files=json.dumps(files)
+            path=root, folders=folders, files=files
         )
 
     def create_dir(self, request, context):

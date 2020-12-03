@@ -11,7 +11,7 @@ from ._symbols import Symbols
 class PageNavigator:
     DISCONNECT = Symbols.make_option("Disconnect")
     BREAK = " "
-    MENU_TITLE = "Navigate through folders or choose an action."
+    MENU_TITLE = "Navigate through folders or choose an action.\n{current_path}"
 
     def __init__(self, stub):
         self._stub = stub
@@ -34,7 +34,7 @@ class PageNavigator:
     def loop_pages(self):
         while True:
             options = self._get_menu_items()
-            opt, ind = pick(options, self.MENU_TITLE)
+            opt, ind = pick(options, self.MENU_TITLE.format(current_path=self._explorer.root))
 
             if opt is self.DISCONNECT:
                 if self._confirm("Are you sure you want to disconnect?"):

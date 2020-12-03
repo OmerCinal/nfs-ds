@@ -41,9 +41,10 @@ class RemoteExplorer(_Explorer):
 
     def update_tree(self, root: str):
         tree = self._functions.list_dir(root)
-        self.root = tree["root"]
-        self.folders = tree["folders"]
-        self.files = tree["files"]
+        if tree is not None:
+            self.root = tree["root"]
+            self.folders = tree["folders"]
+            self.files = tree["files"]
 
 
 class LocalExplorer(_Explorer):
