@@ -45,7 +45,7 @@ class Client:
         host, port = server_info, "50051"
         if ":" in server_info:
             host, port = server_info.split(":")
-        
+
         self._servers[server_name] = {
             "host": host,
             "port": port,
@@ -65,11 +65,16 @@ class Client:
                 del self._servers[server_name]
                 break
 
-
     def start(self):
         self._scan_servers()
         while True:
-            options = self._get_server_names() + [self.BREAK, self.REFRESH, self.MANUAL_CONNECT, self.REMOVE_SERVER, self.EXIT]
+            options = self._get_server_names() + [
+                self.BREAK,
+                self.REFRESH,
+                self.MANUAL_CONNECT,
+                self.REMOVE_SERVER,
+                self.EXIT,
+            ]
             option, index = pick(options, f"{len(self._servers)} servers found.")
             if option == self.EXIT:
                 break

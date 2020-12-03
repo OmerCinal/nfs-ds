@@ -34,7 +34,9 @@ class PageNavigator:
     def loop_pages(self):
         while True:
             options = self._get_menu_items()
-            opt, ind = pick(options, self.MENU_TITLE.format(current_path=self._explorer.root))
+            opt, ind = pick(
+                options, self.MENU_TITLE.format(current_path=self._explorer.root)
+            )
 
             if opt is self.DISCONNECT:
                 if self._confirm("Are you sure you want to disconnect?"):

@@ -29,12 +29,12 @@ class NfsService(nfs_pb2_grpc.NFSServicer):
         if path:
             root, folders, files = next(os.walk(path))
         else:
-            folders = [f'{d}:' for d in string.ascii_uppercase if os.path.exists(f'{d}:')]
+            folders = [
+                f"{d}:" for d in string.ascii_uppercase if os.path.exists(f"{d}:")
+            ]
             root, files = "", []
 
-        return nfs_pb2.FolderView(
-            path=root, folders=folders, files=files
-        )
+        return nfs_pb2.FolderView(path=root, folders=folders, files=files)
 
     def create_dir(self, request, context):
         return self._run_command(os.mkdir, request.path)
