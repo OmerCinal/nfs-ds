@@ -20,7 +20,7 @@ class NfsService(nfs_pb2_grpc.NFSServicer):
         except Exception as exc:
             flag = False
             error = str(exc)
-        print(error)
+        
         return nfs_pb2.Status(status=flag, error=error)
 
     def list_dir(self, request, context):
