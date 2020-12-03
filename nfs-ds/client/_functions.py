@@ -19,7 +19,7 @@ class Functions:
                 "files": response.files,
             }
         except Exception as exc:
-            pass
+            print(exc)
         return tree
 
     def copy_dir(self, source: str, sink: str):

@@ -1,6 +1,7 @@
 import json
 import os
 import shutil
+import string
 from concurrent import futures
 
 import grpc
@@ -24,10 +25,13 @@ class NfsService(nfs_pb2_grpc.NFSServicer):
 
     def list_dir(self, request, context):
         path = request.path
-        if not path:
-            path = os.path.expanduser("~")
-        print(f"list_dir: path={path}")
-        root, folders, files = next(os.walk(path))
+        print(f"list_dir: path='{path}'")
+        if path:
+            root, folders, files = next(os.walk(path))
+        else:
+            folders = [f'{d}:' for d in string.ascii_uppercase if os.path.exists(f'{d}:')]
+            root, files = "", []
+
         return nfs_pb2.FolderView(
             path=root, folders=folders, files=files
         )

@@ -19,6 +19,8 @@ class _Explorer:
         else:
             raise Exception(f"{folder} doesn't exist in {self.root}")
 
+        if path == self.root:
+            path = ""
         self.update_tree(path)
 
     def get_folders(self) -> List:
@@ -37,6 +39,9 @@ class _Explorer:
 class RemoteExplorer(_Explorer):
     def __init__(self, root: Dict, stub):
         self._functions = Functions(stub)
+        self.root = ""
+        self.folders = []
+        self.files = []
         self.update_tree(root)
 
     def update_tree(self, root: str):
